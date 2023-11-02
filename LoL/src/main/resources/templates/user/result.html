@@ -20,6 +20,60 @@
 						<a class="btn" style="background-color: #5383E3; color: white">전적 갱신</a>
 					</div>
 				</div>
+					<hr>
+				<div class="col-12">
+					<div class="rank col-4">
+						<div class="card mb-2">
+							<div class="header">솔로랭크</div>
+							<div class="content" th:if="${rankInfo1 != null}">
+								<div style="position: relative">
+									<img alt="솔로랭크" th:src="${tierImgURL1}" style="width: 100px;">
+								</div>
+								<div class="info">
+									<div class="tier">[[${rankInfo1.tier}]] [[${rankInfo1.rank}]]</div>
+									<div class="lp">[[${rankInfo1.leaguePoints}]] LP</div>
+								</div>
+								<div class="win-lose-container">
+									<div class="win-lose">[[${rankInfo1.wins}]] 승 [[${rankInfo1.losses}]] 패</div>
+									<div class="ratio">승률 [[${rankInfo1.odds}]]%</div>
+								</div>
+							</div>
+							<div class="content" th:unless="${rankInfo1 != null}">
+								<div style="position: relative">
+									<img alt="솔로랭크" th:src="${tierImgURL1}" style="width: 100px;">
+								</div>
+								<div class="info">
+									<div class="tier"><b>UNLANKED</b></div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="card mt-2">
+							<div class="header">자유랭크</div>
+							<div class="content" th:if="${rankInfo2 != null}">
+								<div style="position: relative">
+									<img alt="자유랭크" th:src="${tierImgURL2}" style="width: 72px;">
+								</div>
+								<div class="info">
+									<div class="tier">[[${rankInfo2.tier}]] [[${rankInfo2.rank}]]</div>
+									<div class="lp">[[${rankInfo2.leaguePoints}]] LP</div>
+								</div>
+								<div class="win-lose-container">
+									<div class="win-lose">[[${rankInfo2.wins}]] 승 [[${rankInfo2.losses}]] 패</div>
+									<div class="ratio">승률 [[${rankInfo2.odds}]]%</div>
+								</div>
+							</div>
+							<div class="content" th:unless="${rankInfo2 != null}">
+								<div style="position: relative">
+									<img alt="자유랭크" th:src="${tierImgURL2}" style="width: 72px;">
+								</div>
+								<div class="info">
+									<div class="tier"><b>UNLANKED</b></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
