@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="naviFragments">
+	<nav class="navbar" style="background-color: #28344E; color: white;">
+		<div class="container" style="justify-content: end">
+			<a th:if="${session.S_USER_INFO == null}" class="btn py-1" th:href="@{/login}" style="background-color: #5383E3; color: white; font-size: 12px">로그인</a>
+			<div th:unless="${session.S_USER_INFO == null}">
+				<span th:text="|${session.S_USER_INFO.userNickname}님 |" style="vertical-align: middle"></span>
+				<a class="btn py-1 px-2" th:href="@{/logout}" style="background-color: #5383E3; color: white; font-size: 12px">로그아웃</a>
+			</div>
+		</div>
+	</nav>
+	<nav class="navbar navbar-expand-lg navbar-light py-1"
+		style="background-color: #5383E3">
+		<div class="container">
+			<a class="navbar-brand" th:href="@{/}"
+				style="font-size: 20px; font-weight: 900; color: white">OP.GG</a>
+			<button class="navbar-toggler" type="button"
+				data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+				aria-controls="navbarSupportedContent" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+					<li class="nav-item" id="coBtn"><a class="nav-link"
+						th:href="@{#}" style="color: #B3CDFF">챔피언 분석</a></li>
+					<li class="nav-item" id="coBtn"><a class="nav-link"
+						th:href="@{#}" style="color: #B3CDFF">커뮤니티</a></li>
+				</ul>
+				<form action="/search" method="get">
+					<div class="input-group">
+						<input class="form-control py-1" type="search" name="summonerName"
+							aria-label="Search" style="border: 1px solid white;" required>
+						<button class="btn py-1" type="submit"
+							style="background-color: white; color: #5383E3; font-size: 15px; font-weight: 900;">.GG</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</nav>
+</div>
+</html>
