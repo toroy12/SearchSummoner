@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor	
 public class MetadataDto {
 
-	private String dateVersion;
+	private String dataVersion;
 	private String matchId;
 	private List<String> participants;
 }

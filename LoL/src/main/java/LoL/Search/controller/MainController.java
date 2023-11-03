@@ -1,5 +1,10 @@
 package LoL.Search.controller;
 
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -7,8 +12,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import LoL.Match.dto.InfoDto;
 import LoL.Match.dto.MatchDto;
 import LoL.Match.dto.MatchIdDTO;
+import LoL.Match.dto.MetadataDto;
+import LoL.Match.dto.ParticipantDto;
 import LoL.Match.service.MatchIdService;
 import LoL.Match.service.MatchService;
 import LoL.Rank.dto.LeagueEntryDTO;
@@ -16,14 +24,16 @@ import LoL.Rank.service.RankService;
 import LoL.Summoner.dto.SummonerDTO;
 import LoL.Summoner.service.SummonerService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 public class MainController {
 	
 	private final SummonerService summonerService;
-	//private final MatchIdService matchIdService;
-	//private final MatchService matchService;
+	private final MatchIdService matchIdService;
+	private final MatchService matchService;
 	private final RankService rankService;
 	
 	@GetMapping("/")
@@ -37,10 +47,32 @@ public class MainController {
 	@GetMapping("/search")
 	public String searchResult(Model model, @RequestParam(value = "summonerName") String summonerName) {
 		
+		
 		SummonerDTO summonerInfo = summonerService.requestPuuidSearch(summonerName);
-		//List<MatchIdDTO> matchId = matchIdService.requestPuuidSearch(summonerInfo.getPuuid()); 최근 20개의 게임 리그 아이디
-		//MatchDto match = matchService.requestMatchIdSearch(matchId.get(0)); 반복문을 통해 20가지의 리그 아이디를 통해 게임의 정보를 나타내는 매치정보
+		
+		List<MatchIdDTO> matchId = matchIdService.requestPuuidSearch(summonerInfo.getPuuid()); 
 		List<LeagueEntryDTO> rankInfo = rankService.requestIdSearch(summonerInfo.getId());
+		
+		List<InfoDto> infoList = new ArrayList<>(); // InfoDto를 담을 리스트 생성
+		List<ParticipantDto> participantList = new ArrayList<>(); // ParticipantDto를 담을 리스트 생성
+		
+		for(int i = 0; i < 20; i++) {
+			MatchDto match = matchService.requestMatchIdSearch(matchId.get(i)); 
+			InfoDto info = match.getInfo();
+			infoList.add(info); // info를 리스트에 추가
+			
+			List<ParticipantDto> Participant = info.getParticipants();
+			
+			for(int j = 0; j < 10; j++) {
+				if(summonerInfo.getPuuid().equals(Participant.get(j).getPuuid())) {
+					participantList.add(Participant.get(j));
+					break;
+				}
+			}
+		}
+		
+		model.addAttribute("infoList", infoList); // infoList를 model에 추가
+		model.addAttribute("participantList", participantList); // participantList를 model에 추가
 		
 		LeagueEntryDTO rankInfo1, rankInfo2 = null;
 		
@@ -53,13 +85,14 @@ public class MainController {
 		model.addAttribute("imgURL", "http://ddragon.leagueoflegends.com/cdn/13.21.1/img/profileicon/"
 				+ summonerInfo.getProfileIconId() + ".png");
 		// 소환사 정보
-		model.addAttribute("info", summonerInfo); 
+		model.addAttribute("summonerInfo", summonerInfo); 
 		// 랭크정보
 		model.addAttribute("rankInfo1", rankInfo1); 
 		model.addAttribute("rankInfo2", rankInfo2); 
 		// 티어 이미지
 		model.addAttribute("tierImgURL1", "img/emblems/emblem-" + rankInfo1.getTier() + ".png");
 		model.addAttribute("tierImgURL2", "img/emblems/emblem-" + rankInfo2.getTier() + ".png");
+		
 		
 		return "user/result";
 		

@@ -3,6 +3,7 @@ package LoL.Match.service;
 import java.net.URI;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -13,8 +14,8 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.web.client.RestTemplate;
 
 import LoL.Match.dto.MatchIdDTO;
+import LoL.Search.service.UriBuilderService;
 import LoL.Summoner.dto.SummonerDTO;
-import LoL.Summoner.service.UriBuilderService;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -23,8 +24,9 @@ public class MatchIdService {
 
 	private final RestTemplate restTemplate;
 	private final UriBuilderService uriBuilderService;
-
-	private static final String riotApiKey = "RGAPI-08a13a44-4603-4f4a-8eee-a7bfe578c24d";
+	
+	@Value("${RIOT.API.KEY}")
+	private String riotApiKey;
 
 	public List<MatchIdDTO> requestPuuidSearch(String puuid) {
 

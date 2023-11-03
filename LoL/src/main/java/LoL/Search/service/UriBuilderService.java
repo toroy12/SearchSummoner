@@ -1,4 +1,4 @@
-package LoL.Summoner.service;
+package LoL.Search.service;
 
 import java.net.URI;
 
@@ -23,7 +23,7 @@ public class UriBuilderService {
 		uriBuilder.path(name);
 
 		URI uri = uriBuilder.build().encode().toUri();
-		log.info("[UriBuilderService buildUriByNameSearch] name: {}, uri: {}", name, uri);
+		log.info("[UriBuilderService buildUriSummonerSearch] name: {}, uri: {}", name, uri);
 
 		return uri;
 	}
@@ -35,7 +35,7 @@ public class UriBuilderService {
 		uriBuilder.query("start=0&count=20");
 
 		URI uri = uriBuilder.build().encode().toUri();
-		log.info("[UriBuilderService buildUriByPuuidSearch] puuid: {}, uri: {}", puuid, uri);
+		log.info("[UriBuilderService buildUriMatchIdSearch] puuid: {}, uri: {}", puuid, uri);
 
 		return uri;
 	}
@@ -48,7 +48,7 @@ public class UriBuilderService {
 		uriBuilder.path(matchIdString);
 
 		URI uri = uriBuilder.build().encode().toUri();
-		log.info("[UriBuilderService buildUriByMatchIdSearch] matchId: {}, uri: {}", matchId, uri);
+		log.info("[UriBuilderService buildUriMatchSearch] matchId: {}, uri: {}", matchId, uri);
 
 		return uri;
 	}
@@ -59,7 +59,7 @@ public class UriBuilderService {
 		uriBuilder.path(id);
 
 		URI uri = uriBuilder.build().encode().toUri();
-		log.info("[UriBuilderService buildUriByMatchIdSearch] id: {}, uri: {}", id, uri);
+		log.info("[UriBuilderService buildUriRankSearch] id: {}, uri: {}", id, uri);
 
 		return uri;
 	}

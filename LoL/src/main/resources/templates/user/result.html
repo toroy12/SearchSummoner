@@ -2,27 +2,131 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{user/layout/default}">
+<head>
+<style type="text/css">
+
+.game-content {
+	display: flex;
+	height: 96px;
+	-webkit-box-align: center;
+	align-items: center;
+	padding: 0px 8px 0px 12px;
+	-webkit-box-pack: justify;
+	justify-content: space-between;
+	background-color: #ECF2FF;
+}
+
+.game {
+	width: 120px;
+	color: var(- -gray500);
+	line-height: 16px;
+	display: flex;
+	flex-direction: column;
+	-webkit-box-pack: center;
+	justify-content: center;
+}
+
+.champion-level {
+	position: absolute;
+	left: 30px;
+	bottom: 0px;
+	display: flex;
+	-webkit-box-align: center;
+	align-items: center;
+	-webkit-box-pack: center;
+	justify-content: center;
+	width: 20px;
+	height: 20px;
+	font-size: 11px;
+	border-radius: 50%;
+	color: rgb(255, 255, 255);
+	background: rgb(32, 45, 55);
+	font-family: Roboto, sans-serif;
+}
+
+.champion {
+	display: flex;
+	-webkit-box-align: center;
+	align-items: center;
+	position: relative;
+}
+
+.championImg {
+	width: 48px;
+	aspect-ratio: auto 48/48;
+	height: 48px;
+	display: block;
+	border-radius: 50%;
+}
+
+.item {
+	width: 22px;
+	aspect-ratio: auto 22/22;
+	height: 22px;
+}
+
+.kda {
+	display: flex;
+	flex-direction: column;
+	-webkit-box-pack: center;
+	justify-content: center;
+	width: 107px;
+	padding-right: 12px;
+	margin-left: 12px;
+}
+
+.kda .k-d-a {
+	line-height: 22px;
+	font-size: 15px;
+	color: var(- -gray400);
+	font-family: Roboto, sans-serif;
+	font-weight: bold;
+	display: flex;
+}
+
+.kda .k-d-a .d {
+	color: #D31A45;
+}
+
+.win {
+   background-color: #ECF2FF;
+ }
+ .win .winloss {
+   color: blue;
+   font-weight: bold;
+ }
+ .loss {
+   background-color: #FFF1F3;
+ }
+ 
+ .loss .winloss{
+   color: red;
+   font-weight: bold;
+ }
+</style>
+</head>
 <th:block layout:fragment="customContents">
 	<div class="container">
 		<div class="total my-5" style="min-height: 600px">
-			<div class="wrapper"> 
+			<div class="wrapper">
 				<div class="header-profile-info">
 					<div class="profile-icon">
 						<img alt="profile image" th:src=${imgURL}>
 						<div class="level">
-							<span class="level">[[${info.summonerLevel}]]</span>
+							<span class="level">[[${summonerInfo.summonerLevel}]]</span>
 						</div>
 					</div>
 					<div class="info">
 						<div class="name">
-							<h1 class="summonerName">[[${info.name}]]</h1>
+							<h1 class="summonerName">[[${summonerInfo.name}]]</h1>
 						</div>
-						<a class="btn" style="background-color: #5383E3; color: white">전적 갱신</a>
+						<a class="btn" style="background-color: #5383E3; color: white">전적
+							갱신</a>
 					</div>
 				</div>
-					<hr>
-				<div class="col-12">
-					<div class="rank col-4">
+				<hr>
+				<div class="row">
+					<div class="rank left">
 						<div class="card mb-2">
 							<div class="header">솔로랭크</div>
 							<div class="content" th:if="${rankInfo1 != null}">
@@ -30,11 +134,13 @@
 									<img alt="솔로랭크" th:src="${tierImgURL1}" style="width: 100px;">
 								</div>
 								<div class="info">
-									<div class="tier">[[${rankInfo1.tier}]] [[${rankInfo1.rank}]]</div>
+									<div class="tier">[[${rankInfo1.tier}]]
+										[[${rankInfo1.rank}]]</div>
 									<div class="lp">[[${rankInfo1.leaguePoints}]] LP</div>
 								</div>
 								<div class="win-lose-container">
-									<div class="win-lose">[[${rankInfo1.wins}]] 승 [[${rankInfo1.losses}]] 패</div>
+									<div class="win-lose">[[${rankInfo1.wins}]] 승
+										[[${rankInfo1.losses}]] 패</div>
 									<div class="ratio">승률 [[${rankInfo1.odds}]]%</div>
 								</div>
 							</div>
@@ -43,11 +149,13 @@
 									<img alt="솔로랭크" th:src="${tierImgURL1}" style="width: 100px;">
 								</div>
 								<div class="info">
-									<div class="tier"><b>UNLANKED</b></div>
+									<div class="tier">
+										<b>UNLANKED</b>
+									</div>
 								</div>
 							</div>
 						</div>
-						
+
 						<div class="card mt-2">
 							<div class="header">자유랭크</div>
 							<div class="content" th:if="${rankInfo2 != null}">
@@ -55,11 +163,13 @@
 									<img alt="자유랭크" th:src="${tierImgURL2}" style="width: 72px;">
 								</div>
 								<div class="info">
-									<div class="tier">[[${rankInfo2.tier}]] [[${rankInfo2.rank}]]</div>
+									<div class="tier">[[${rankInfo2.tier}]]
+										[[${rankInfo2.rank}]]</div>
 									<div class="lp">[[${rankInfo2.leaguePoints}]] LP</div>
 								</div>
 								<div class="win-lose-container">
-									<div class="win-lose">[[${rankInfo2.wins}]] 승 [[${rankInfo2.losses}]] 패</div>
+									<div class="win-lose">[[${rankInfo2.wins}]] 승
+										[[${rankInfo2.losses}]] 패</div>
 									<div class="ratio">승률 [[${rankInfo2.odds}]]%</div>
 								</div>
 							</div>
@@ -68,7 +178,76 @@
 									<img alt="자유랭크" th:src="${tierImgURL2}" style="width: 72px;">
 								</div>
 								<div class="info">
-									<div class="tier"><b>UNLANKED</b></div>
+									<div class="tier">
+										<b>UNLANKED</b>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="right" th:each="index : ${#numbers.sequence(0, 5)}">
+						<div class="game-content" th:each="Participant : ${participantList[__${index}__]}" th:class="${Participant.win} ? 'win game-content py-2 col-12' : 'loss game-content py-2 col-12'">
+							<div class="game" th:each="info : ${infoList[__${index}__]}">
+								<span th:text="${info.queueId == 420} ? '솔랭' : '자유 5:5 랭크'"></span>
+								<span class="winloss" th:text="${Participant.win} ? '승리' : '패배'">승리</span> 
+								<span th:text="${info.gameDuration div 60} + '분 ' + ${info.gameDuration mod 60} + '초'"></span>
+							</div>
+							<div class="info">
+								<div class="champion">
+									<img class="championImg" alt="champion image"
+										th:src="@{'http://ddragon.leagueoflegends.com/cdn/13.21.1/img/champion/' + ${Participant.championName} + '.png'}"
+										style="width: 48px; aspect-ratio: auto 48/48; height: 48px;">
+									<span class="champion-level">[[${Participant.champLevel}]]</span>
+									<div class="kda">
+										<div class="k-d-a">
+											<span class="mx-1">[[${Participant.kills}]]</span>/<span
+												class="d mx-1">[[${Participant.deaths}]]</span>/<span
+												class="mx-1">[[${Participant.assists}]]</span>
+										</div>
+									</div>
+								</div>
+								<div>
+									<img class="item" alt="item0 image" th:if="${Participant.item0} != 0"
+										th:src="@{'http://ddragon.leagueoflegends.com/cdn/13.21.1/img/item/' + ${Participant.item0} + '.png'}"
+										style="width: 22px; aspect-ratio: auto 22/22; height: 22px;">
+									<img class="item" alt="item0 image" th:unless="${Participant.item0} != 0"
+									th:src="@{img/noItem.jpg}" style="width: 22px; aspect-ratio: auto 22/22; height: 22px;">
+									
+									<img class="item" alt="item1 image" th:if="${Participant.item1} != 0"
+										th:src="@{'http://ddragon.leagueoflegends.com/cdn/13.21.1/img/item/' + ${Participant.item1} + '.png'}"
+										style="width: 22px; aspect-ratio: auto 22/22; height: 22px;">
+									<img class="item" alt="item0 image" th:unless="${Participant.item1} != 0"
+									th:src="@{img/noItem.jpg}" style="width: 22px; aspect-ratio: auto 22/22; height: 22px;">
+										
+									<img class="item" alt="item2 image" th:if="${Participant.item2} != 0"
+										th:src="@{'http://ddragon.leagueoflegends.com/cdn/13.21.1/img/item/' + ${Participant.item2} + '.png'}"
+										style="width: 22px; aspect-ratio: auto 22/22; height: 22px;">
+									<img class="item" alt="item0 image" th:unless="${Participant.item2} != 0"
+									th:src="@{img/noItem.jpg}" style="width: 22px; aspect-ratio: auto 22/22; height: 22px;">
+										
+									<img class="item" alt="item3 image" th:if="${Participant.item3} != 0"
+										th:src="@{'http://ddragon.leagueoflegends.com/cdn/13.21.1/img/item/' + ${Participant.item3} + '.png'}"
+										style="width: 22px; aspect-ratio: auto 22/22; height: 22px;">
+									<img class="item" alt="item0 image" th:unless="${Participant.item3} != 0"
+									th:src="@{img/noItem.jpg}" style="width: 22px; aspect-ratio: auto 22/22; height: 22px;">
+										
+									<img class="item" alt="item4 image" th:if="${Participant.item4} != 0"
+										th:src="@{'http://ddragon.leagueoflegends.com/cdn/13.21.1/img/item/' + ${Participant.item4} + '.png'}"
+										style="width: 22px; aspect-ratio: auto 22/22; height: 22px;">
+									<img class="item" alt="item0 image" th:unless="${Participant.item4} != 0"
+									th:src="@{img/noItem.jpg}" style="width: 22px; aspect-ratio: auto 22/22; height: 22px;">
+										
+									<img class="item" alt="item5 image" th:if="${Participant.item5} != 0"
+										th:src="@{'http://ddragon.leagueoflegends.com/cdn/13.21.1/img/item/' + ${Participant.item5} + '.png'}"
+										style="width: 22px; aspect-ratio: auto 22/22; height: 22px;">
+									<img class="item" alt="item0 image" th:unless="${Participant.item5} != 0"
+									th:src="@{img/noItem.jpg}" style="width: 22px; aspect-ratio: auto 22/22; height: 22px;">
+										
+									<img class="item" alt="item6 image" th:if="${Participant.item6} != 0"
+										th:src="@{'http://ddragon.leagueoflegends.com/cdn/13.21.1/img/item/' + ${Participant.item6} + '.png'}"
+										style="width: 22px; aspect-ratio: auto 22/22; height: 22px;">
+									<img class="item" alt="item0 image" th:unless="${Participant.item6} != 0"
+									th:src="@{img/noItem.jpg}" style="width: 22px; aspect-ratio: auto 22/22; height: 22px;">
 								</div>
 							</div>
 						</div>
